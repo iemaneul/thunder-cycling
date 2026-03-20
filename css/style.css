@@ -153,6 +153,34 @@ button {
   border: 1px solid #474041;
 }
 
+.dashboard-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 16px;
+  margin-top: 24px;
+}
+
+.dashboard-card {
+  padding: 18px;
+  background: #241f20;
+  border: 1px solid #474041;
+}
+
+.dashboard-label {
+  margin: 0 0 8px;
+  font-size: 0.88rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: #d4cac5;
+}
+
+.dashboard-value {
+  display: block;
+  margin-bottom: 10px;
+  font-size: 2rem;
+  line-height: 1.1;
+}
+
 .spotify-embed-wrap {
   margin: 14px 0 20px;
 }
@@ -166,7 +194,7 @@ button {
 
 #powerChart {
   width: 100%;
-  min-height: 430px;
+  min-height: 280px;
 }
 
 .status-message {
@@ -207,8 +235,74 @@ select {
   margin-bottom: 12px;
 }
 
+.music-card-header {
+  margin-bottom: 0;
+}
+
+.music-card-toggle {
+  flex: 1;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  padding: 0;
+  background: transparent;
+  color: inherit;
+  text-align: left;
+  border: 0;
+  cursor: pointer;
+}
+
+.music-card-toggle h3 {
+  margin-bottom: 4px;
+}
+
+.music-card-toggle:hover {
+  opacity: 0.92;
+}
+
+.music-card-toggle:focus {
+  outline: 1px solid #8fd4ff;
+  outline-offset: 6px;
+}
+
+.music-card-summary {
+  margin: 0;
+  color: #d4cac5;
+}
+
+.music-card-meta {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.music-card-chevron {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border: 1px solid #4a4243;
+  border-radius: 999px;
+  font-weight: bold;
+}
+
+.music-card[data-expanded="true"] .music-card-chevron {
+  transform: rotate(45deg);
+}
+
+.music-card-content {
+  margin-top: 14px;
+}
+
 .remove-music-button {
   background: #8d2f2f;
+}
+
+.remove-music-button-header {
+  flex-shrink: 0;
+  margin-left: 12px;
 }
 
 .blocks-container {
@@ -271,15 +365,34 @@ select {
   }
 
   .player-panel {
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 8px;
+  }
+
+  .player-stat {
+    min-height: 64px;
+    padding: 10px 12px;
   }
 
   .player-stat strong {
-    font-size: 1.3rem;
+    font-size: 1.1rem;
+  }
+
+  .player-label {
+    font-size: 0.74rem;
+    margin-bottom: 4px;
+  }
+
+  .player-stat.time {
+    grid-column: 1 / -1;
   }
 
   .player-controls {
     flex-wrap: wrap;
+  }
+
+  #powerChart {
+    min-height: 220px;
   }
 
   .music-card-actions,

@@ -365,44 +365,117 @@
     return blockRow;
   }
 
+  function getNextBlockDefaults(blocksContainer) {
+    const blockRows = [...blocksContainer.querySelectorAll(".block-row")];
+    const lastRow = blockRows[blockRows.length - 1];
+
+    if (!lastRow) {
+      return {};
+    }
+
+    const lastEndSeconds = parseClockValue(
+      lastRow.querySelector(".block-end-time").value
+    );
+
+    return {
+      start_seconds: lastEndSeconds,
+      end_seconds: lastEndSeconds
+    };
+  }
+
   function createMusicCard(music, blocks) {
     const card = document.createElement("section");
     card.className = "music-card";
     card.dataset.musicId = music?.id || "";
+    card.dataset.expanded = "false";
 
     card.innerHTML = `
       <div class="music-card-header">
-        <h3>Musica</h3>
-        <span class="music-order-label"></span>
+        <div class="music-card-toggle" role="button" tabindex="0" aria-expanded="false">
+          <div>
+            <h3>Musica</h3>
+            <p class="music-card-summary">Clique para expandir</p>
+          </div>
+          <span class="music-card-meta">
+            <span class="music-order-label"></span>
+            <span class="music-card-chevron">+</span>
+          </span>
+        </div>
+        <button type="button" class="remove-music-button remove-music-button-header">Excluir</button>
       </div>
-      <div class="simple-form">
+      <div class="music-card-content hidden">
+        <div class="simple-form">
         <input type="text" class="music-title" placeholder="Nome da musica" value="${music?.title || ""}">
         <input type="text" class="music-artist" placeholder="Artista" value="${music?.artist || ""}">
         <div class="time-pair">
           <label>Duracao</label>
           <input type="text" class="music-duration-time clock-field" inputmode="numeric" placeholder="mm:ss" value="${formatClock(music?.duration_seconds || 0)}">
         </div>
+        </div>
+        <div class="music-card-actions">
+          <button type="button" class="add-block-button">Adicionar bloco</button>
+          <button type="button" class="save-music-button">Salvar musica</button>
+          <button type="button" class="remove-music-button">Remover musica</button>
+        </div>
+        <div class="blocks-container"></div>
       </div>
-      <div class="music-card-actions">
-        <button type="button" class="add-block-button">Adicionar bloco</button>
-        <button type="button" class="save-music-button">Salvar musica</button>
-        <button type="button" class="remove-music-button">Remover musica</button>
-      </div>
-      <div class="blocks-container"></div>
     `;
 
+    const toggleButton = card.querySelector(".music-card-toggle");
+    const content = card.querySelector(".music-card-content");
+    const titleInput = card.querySelector(".music-title");
+    const artistInput = card.querySelector(".music-artist");
+    const durationInput = card.querySelector(".music-duration-time");
+    const summary = card.querySelector(".music-card-summary");
     const blocksContainer = card.querySelector(".blocks-container");
+    const removeButtons = card.querySelectorAll(".remove-music-button");
     const orderedBlocks = blocks && blocks.length ? blocks : [{}];
+
+    function updateSummary() {
+      const title = titleInput.value.trim();
+      const artist = artistInput.value.trim();
+      const duration = durationInput.value.trim();
+      const pieces = [];
+
+      if (title) pieces.push(title);
+      if (artist) pieces.push(artist);
+      if (duration) pieces.push(duration);
+
+      summary.textContent = pieces.length ? pieces.join(" • ") : "Clique para expandir";
+    }
+
+    function setExpanded(isExpanded) {
+      card.dataset.expanded = String(isExpanded);
+      toggleButton.setAttribute("aria-expanded", String(isExpanded));
+      content.classList.toggle("hidden", !isExpanded);
+    }
+
     orderedBlocks.forEach((block) => {
       blocksContainer.appendChild(createBlockRow(block));
     });
 
-    card.querySelector(".add-block-button").addEventListener("click", () => {
-      blocksContainer.appendChild(createBlockRow());
-    });
-    attachTimeFieldFormatting(card);
+    function toggleExpanded() {
+      setExpanded(card.dataset.expanded !== "true");
+    }
 
-    card.querySelector(".remove-music-button").addEventListener("click", async () => {
+    toggleButton.addEventListener("click", toggleExpanded);
+    toggleButton.addEventListener("keydown", (event) => {
+      if (event.key === "Enter" || event.key === " ") {
+        event.preventDefault();
+        toggleExpanded();
+      }
+    });
+    card.querySelector(".add-block-button").addEventListener("click", () => {
+      blocksContainer.appendChild(createBlockRow(getNextBlockDefaults(blocksContainer)));
+    });
+    titleInput.addEventListener("input", updateSummary);
+    artistInput.addEventListener("input", updateSummary);
+    durationInput.addEventListener("input", updateSummary);
+    attachTimeFieldFormatting(card);
+    updateSummary();
+    setExpanded(false);
+
+    async function removeMusic() {
       try {
         if (!card.dataset.musicId) {
           card.remove();
@@ -417,6 +490,13 @@
         console.error(error);
         musicMessage.textContent = `Nao foi possivel remover a musica: ${error.message}`;
       }
+    }
+
+    removeButtons.forEach((button) => {
+      button.addEventListener("click", (event) => {
+        event.stopPropagation();
+        removeMusic();
+      });
     });
 
     card.querySelector(".save-music-button").addEventListener("click", async () => {
@@ -745,6 +825,7 @@
     const card = createMusicCard();
     card.querySelector(".music-order-label").textContent = `Faixa ${musicCards.children.length + 1}`;
     musicCards.appendChild(card);
+    card.querySelector(".music-card-toggle").click();
   });
 
   playButton.addEventListener("click", startPlayback);

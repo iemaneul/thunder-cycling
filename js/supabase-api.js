@@ -31,6 +31,21 @@
     return data ?? [];
   }
 
+  async function getAllWorkouts() {
+    const client = window.BCSupabase.assertSupabase();
+
+    const { data, error } = await client
+      .from("workouts")
+      .select("id, name, spotify_playlist_url, start_time")
+      .order("start_time", { ascending: false });
+
+    if (error) {
+      throw error;
+    }
+
+    return data ?? [];
+  }
+
   async function getWorkoutById(workoutId) {
     const client = window.BCSupabase.assertSupabase();
 
@@ -133,6 +148,24 @@
     return data ?? [];
   }
 
+  async function getAllWorkoutMusic() {
+    const client = window.BCSupabase.assertSupabase();
+
+    const { data, error } = await client
+      .from("workout_music")
+      .select("id, workout_id, title, artist, duration_seconds, music_order, is_active")
+      .eq("is_active", true)
+      .order("workout_id", { ascending: true })
+      .order("music_order", { ascending: true })
+      .order("id", { ascending: true });
+
+    if (error) {
+      throw error;
+    }
+
+    return data ?? [];
+  }
+
   async function getMusicBlocksByMusicId(musicId) {
     const client = window.BCSupabase.assertSupabase();
 
@@ -140,6 +173,23 @@
       .from("workout_music_blocks")
       .select("id, music_id, start_seconds, end_seconds, intensity, position, load_level")
       .eq("music_id", musicId)
+      .order("start_seconds", { ascending: true });
+
+    if (error) {
+      throw error;
+    }
+
+    return data ?? [];
+  }
+
+  async function getAllWorkoutBlocks() {
+    const client = window.BCSupabase.assertSupabase();
+
+    const { data, error } = await client
+      .from("workout_music_blocks")
+      .select("id, workout_id, music_id, start_seconds, end_seconds, intensity, position, load_level")
+      .order("workout_id", { ascending: true })
+      .order("music_id", { ascending: true })
       .order("start_seconds", { ascending: true });
 
     if (error) {
@@ -275,12 +325,15 @@
 
   window.BCApi = {
     createWorkout,
+    getAllWorkouts,
     getRecentWorkouts,
     getWorkoutById,
     updateWorkout,
     getWorkoutSamples,
     addWorkoutSample,
+    getAllWorkoutMusic,
     getWorkoutMusic,
+    getAllWorkoutBlocks,
     getMusicBlocksByMusicId,
     saveWorkoutMusicWithBlocks,
     deactivateWorkoutMusic
