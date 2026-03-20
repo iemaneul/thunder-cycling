@@ -90,8 +90,7 @@ button {
 }
 
 .player-stat {
-  min-height: 84px;
-  padding: 12px 14px;
+  padding: 10px;
   border: 1px solid #4c4344;
   background: #2e2829;
   display: flex;
@@ -100,7 +99,7 @@ button {
 }
 
 .player-stat strong {
-  font-size: 1.9rem;
+  font-size: 18px;
   line-height: 1.1;
 }
 
