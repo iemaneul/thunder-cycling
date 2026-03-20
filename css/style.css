@@ -401,3 +401,46 @@ select {
     align-items: stretch;
   }
 }
+
+@media (max-width: 932px) and (max-height: 480px) and (orientation: landscape) {
+  .player-panel {
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    gap: 6px;
+  }
+
+  .player-stat {
+    min-height: 52px;
+    padding: 8px 10px;
+  }
+
+  .player-stat strong {
+    font-size: 0.95rem;
+  }
+
+  .player-label {
+    font-size: 0.66rem;
+    margin-bottom: 2px;
+  }
+
+  .player-stat.time {
+    grid-column: auto;
+  }
+
+  .player-controls {
+    gap: 6px;
+    margin-bottom: 10px;
+  }
+
+  .player-controls button,
+  .player-controls .status-message {
+    font-size: 0.85rem;
+  }
+
+  .player-controls button {
+    padding: 8px 10px;
+  }
+
+  #powerChart {
+    min-height: 180px;
+  }
+}
