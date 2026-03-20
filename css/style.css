@@ -1,0 +1,290 @@
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: #1c1718;
+  color: #f6f1ea;
+}
+
+a {
+  color: #8fd4ff;
+  text-decoration: none;
+}
+
+.container {
+  max-width: 1080px;
+  margin: 18px auto;
+  padding: 20px;
+  background: #282223;
+  border: 1px solid #453d3e;
+}
+
+.two-column-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1.2fr) minmax(320px, 0.8fr);
+  gap: 24px;
+  align-items: start;
+}
+
+.sticky-panel {
+  position: sticky;
+  top: 18px;
+}
+
+h1,
+h2,
+h3 {
+  margin-top: 0;
+}
+
+.actions {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.section-heading {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+}
+
+button,
+input,
+select {
+  font: inherit;
+  padding: 10px 12px;
+}
+
+button {
+  cursor: pointer;
+  border: 0;
+  background: #ff8a1c;
+  color: #fff;
+}
+
+.primary-link {
+  display: inline-block;
+  padding: 10px 12px;
+  background: #ff8a1c;
+  color: #fff;
+}
+
+.simple-form {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 10px;
+  margin-bottom: 12px;
+}
+
+.player-panel {
+  display: grid;
+  grid-template-columns: 110px 1.5fr 1fr 1fr 130px;
+  gap: 6px;
+  margin-bottom: 10px;
+}
+
+.player-stat {
+  min-height: 84px;
+  padding: 12px 14px;
+  border: 1px solid #4c4344;
+  background: #2e2829;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.player-stat strong {
+  font-size: 1.9rem;
+  line-height: 1.1;
+}
+
+.player-label {
+  font-size: 0.82rem;
+  color: #f8e5ca;
+  margin-bottom: 6px;
+}
+
+.player-stat.zone {
+  background: #f0c41e;
+}
+
+.player-stat.intensity {
+  background: #2f2a2b;
+}
+
+.player-stat.position {
+  background: #277ba8;
+}
+
+.player-stat.load {
+  background: #843827;
+}
+
+.player-stat.time {
+  background: #ff8a1c;
+}
+
+.player-controls {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  margin-bottom: 14px;
+}
+
+.player-controls button:nth-child(2) {
+  background: #585051;
+}
+
+.player-controls button:nth-child(3) {
+  background: #2d7a44;
+}
+
+.chart-box {
+  margin-top: 20px;
+  margin-bottom: 20px;
+  padding: 14px;
+  background: #241f20;
+  border: 1px solid #474041;
+}
+
+.spotify-embed-wrap {
+  margin: 14px 0 20px;
+}
+
+.spotify-embed {
+  width: 100%;
+  height: 152px;
+  border: 0;
+  border-radius: 12px;
+}
+
+#powerChart {
+  width: 100%;
+  min-height: 430px;
+}
+
+.status-message {
+  color: #d4cac5;
+}
+
+.section-divider {
+  margin: 28px 0;
+  border: 0;
+  border-top: 1px solid #4a4243;
+}
+
+input,
+select {
+  background: #181415;
+  color: #f6f1ea;
+  border: 1px solid #4a4243;
+}
+
+.music-cards {
+  display: grid;
+  gap: 16px;
+}
+
+.music-card {
+  position: relative;
+  padding: 16px;
+  background: #221d1e;
+  border: 1px solid #474041;
+}
+
+.music-card-header,
+.music-card-actions {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+
+.remove-music-button {
+  background: #8d2f2f;
+}
+
+.blocks-container {
+  display: grid;
+  gap: 12px;
+}
+
+.block-row {
+  position: relative;
+  padding: 12px;
+  background: #2b2526;
+  border: 1px solid #4a4243;
+}
+
+.remove-block-button {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  width: 28px;
+  height: 28px;
+  padding: 0;
+  background: #8d2f2f;
+}
+
+.block-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 10px;
+  padding-top: 6px;
+}
+
+.time-pair label {
+  display: block;
+  margin-bottom: 6px;
+  color: #d4cac5;
+}
+
+.clock-field {
+  width: 110px;
+  text-align: center;
+  letter-spacing: 0.08em;
+}
+
+.hidden {
+  display: none;
+}
+
+@media (max-width: 640px) {
+  .container {
+    margin: 10px;
+    padding: 14px;
+  }
+
+  .two-column-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .sticky-panel {
+    position: static;
+  }
+
+  .player-panel {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .player-stat strong {
+    font-size: 1.3rem;
+  }
+
+  .player-controls {
+    flex-wrap: wrap;
+  }
+
+  .music-card-actions,
+  .section-heading {
+    flex-direction: column;
+    align-items: stretch;
+  }
+}

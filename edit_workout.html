@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Edit Workout | BC Cycling</title>
+  <link rel="stylesheet" href="css/style.css">
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="https://open.spotify.com/embed/iframe-api/v1" async></script>
+  <script src="js/supabase-config.js" defer></script>
+  <script src="js/supabase-api.js" defer></script>
+  <script src="js/chart.js" defer></script>
+  <script src="js/workout.js" defer></script>
+</head>
+<body>
+  <main class="container two-column-layout">
+    <section>
+      <h1 id="workoutTitle">Editar treino</h1>
+      <p id="workoutMeta" class="status-message">Carregando treino...</p>
+      <a id="playlistLink" class="hidden" target="_blank" rel="noopener noreferrer">Abrir playlist no Spotify</a>
+
+      <div class="actions">
+        <a href="index.html">Voltar</a>
+        <a id="viewWorkoutLink" href="workout.html">Abrir visualizacao</a>
+      </div>
+
+      <form id="editWorkoutForm" class="simple-form">
+        <input type="text" id="workoutNameInput" name="name" placeholder="Nome do treino" required>
+        <input type="url" id="workoutPlaylistInput" name="spotify_playlist_url" placeholder="Link da playlist do Spotify">
+        <button id="saveWorkoutButton" type="submit">Salvar treino</button>
+      </form>
+
+      <p id="saveWorkoutMessage" class="status-message">Edite o nome e a playlist do treino aqui.</p>
+
+      <hr class="section-divider">
+
+      <div class="section-heading">
+        <h2>Musicas do treino</h2>
+        <button id="addMusicButton" type="button">Adicionar musica</button>
+      </div>
+      <p id="musicMessage" class="status-message">Edite musicas, blocos, cargas e intensidades.</p>
+      <div id="musicCards" class="music-cards"></div>
+    </section>
+
+    <aside class="sticky-panel">
+      <section class="player-panel">
+        <div class="player-stat zone">
+          <span class="player-label">Zona</span>
+          <strong id="currentZone">-</strong>
+        </div>
+        <div class="player-stat intensity">
+          <span class="player-label">Intensidade</span>
+          <strong id="currentIntensity">Aguardando</strong>
+        </div>
+        <div class="player-stat position">
+          <span class="player-label">Posicao</span>
+          <strong id="currentPosition">-</strong>
+        </div>
+        <div class="player-stat load">
+          <span class="player-label">Carga</span>
+          <strong id="currentLoad">-</strong>
+        </div>
+        <div class="player-stat time">
+          <span class="player-label">Tempo</span>
+          <strong id="currentElapsed">00:00</strong>
+        </div>
+      </section>
+
+      <div class="player-controls">
+        <button id="playButton" type="button">Play</button>
+        <button id="pauseButton" type="button">Pause</button>
+        <button id="resetButton" type="button">Reiniciar</button>
+        <span id="playerMessage" class="status-message">Preview do treino.</span>
+      </div>
+
+      <div class="chart-box">
+        <canvas id="powerChart"></canvas>
+      </div>
+
+      <div id="spotifyEmbedWrap" class="spotify-embed-wrap hidden">
+        <div id="spotifyEmbed" class="spotify-embed"></div>
+      </div>
+    </aside>
+  </main>
+</body>
+</html>

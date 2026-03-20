@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>BC Cycling</title>
+  <link rel="stylesheet" href="css/style.css">
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="js/supabase-config.js" defer></script>
+  <script src="js/supabase-api.js" defer></script>
+  <script src="js/chart.js" defer></script>
+  <script src="js/index.js" defer></script>
+</head>
+<body>
+  <main class="container">
+    <h1>BC Cycling</h1>
+    <p class="status-message" id="statusMessage">Carregando...</p>
+    <p class="status-message">Para salvar um treino novo, clique em `Criar workout`.</p>
+
+    <div class="actions">
+      <a class="primary-link" href="create_workout.html">Criar workout</a>
+      <a id="openLatestEditLink" class="hidden" href="edit_workout.html">Editar ultimo treino</a>
+      <a id="openLatestViewLink" class="hidden" href="workout.html">Ver ultimo treino</a>
+    </div>
+
+    <div class="chart-box">
+      <canvas id="powerChart"></canvas>
+    </div>
+  </main>
+</body>
+</html>

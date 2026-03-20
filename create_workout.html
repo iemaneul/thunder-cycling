@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Create Workout | BC Cycling</title>
+  <link rel="stylesheet" href="css/style.css">
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="js/supabase-config.js" defer></script>
+  <script src="js/supabase-api.js" defer></script>
+  <script src="js/chart.js" defer></script>
+  <script src="js/create_workout.js" defer></script>
+</head>
+<body>
+  <main class="container two-column-layout">
+    <section>
+      <div class="actions">
+        <a href="index.html">Voltar</a>
+      </div>
+      <h1>Create Workout</h1>
+      <p id="createMessage" class="status-message">Crie o workout e siga para a edicao completa.</p>
+
+      <form id="createWorkoutForm" class="simple-form">
+        <input type="text" name="name" placeholder="Nome do treino" required>
+        <input type="url" name="spotify_playlist_url" placeholder="Link da playlist do Spotify">
+        <button id="createWorkoutButton" type="submit">Criar e visualizar</button>
+      </form>
+    </section>
+
+    <aside class="sticky-panel">
+      <div class="chart-box">
+        <canvas id="previewChart"></canvas>
+      </div>
+      <p class="status-message">O preview do grafico aparece na pagina de edicao, junto com musicas e blocos.</p>
+    </aside>
+  </main>
+</body>
+</html>
