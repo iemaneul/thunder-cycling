@@ -11,42 +11,71 @@
   <script src="js/index.js" defer></script>
 </head>
 <body>
-  <main class="container">
-    <h1>BC Cycling</h1>
-    <p class="status-message" id="statusMessage">Carregando...</p>
-    <p class="status-message">Resumo rapido dos seus treinos, sem grafico na tela inicial.</p>
+  <div class="sidebar">
+    <img src="assets/logo/thunder-logo.png" alt="">
+    <div class="items">
+      <ul>
+        <li><a href=""><i class="fi fi-rr-apps"></i>Dashboard</a></li>
+        <li class="menu-item">  
+          <div class="menu-link" onclick="toggleDropdown(this)">
+            <span><i class="fi fi-sr-bolt"></i>Treinos</span>
+            <i class="fi fi-rr-angle-small-right arrow"></i>
+          </div>
 
-    <div class="actions">
-      <a class="primary-link" href="create_workout.html">Criar workout</a>
-      <a id="openLatestEditLink" class="hidden" href="edit_workout.html">Editar ultimo treino</a>
-      <a id="openLatestViewLink" class="hidden" href="workout.html">Ver ultimo treino</a>
+          <ul class="submenu">
+            <li><a href="/treinos/"><i class="fi fi-rc-wifi-1"></i>Listar treinos</a></li>
+            <li><a href="/treinos/criar/"><i class="fi fi-rc-wifi-1"></i>Criar treino</a></li>
+          </ul>
+        </li>
+      </ul>
     </div>
+  </div>
+  <main class="container">
+    <nav>
+    </nav>
+    <div class="content">
+      <h1>Bom dia, Emanuel</h1>
+      <p class="status-message" id="statusMessage">Carregando...</p>
+      <p class="status-message">Resumo rapido dos seus treinos, sem grafico na tela inicial.</p>
 
-    <section class="dashboard-grid" aria-label="Resumo dos treinos">
-      <article class="dashboard-card">
-        <p class="dashboard-label">Total de treinos</p>
-        <strong id="totalWorkoutsValue" class="dashboard-value">--</strong>
-        <p class="status-message">Quantidade de treinos criados.</p>
-      </article>
+      <div class="actions">
+        <a class="primary-link" href="create_workout.html">Criar workout</a>
+        <a id="openLatestEditLink" class="hidden" href="edit_workout.html">Editar ultimo treino</a>
+        <a id="openLatestViewLink" class="hidden" href="workout.html">Ver ultimo treino</a>
+      </div>
 
-      <article class="dashboard-card">
-        <p class="dashboard-label">Intensidade media</p>
-        <strong id="averageIntensityValue" class="dashboard-value">--</strong>
-        <p class="status-message">Baseada nos blocos das aulas.</p>
-      </article>
+      <section class="dashboard-grid" aria-label="Resumo dos treinos">
+        <article class="dashboard-card">
+          <p class="dashboard-label">Total de treinos</p>
+          <strong id="totalWorkoutsValue" class="dashboard-value">--</strong>
+          <p class="status-message">Quantidade de treinos criados.</p>
+        </article>
 
-      <article class="dashboard-card">
-        <p class="dashboard-label">Media de tempo</p>
-        <strong id="averageDurationValue" class="dashboard-value">--</strong>
-        <p class="status-message">Tempo medio por treino.</p>
-      </article>
+        <article class="dashboard-card">
+          <p class="dashboard-label">Intensidade media</p>
+          <strong id="averageIntensityValue" class="dashboard-value">--</strong>
+          <p class="status-message">Baseada nos blocos das aulas.</p>
+        </article>
 
-      <article class="dashboard-card">
-        <p class="dashboard-label">Tempo pedalado</p>
-        <strong id="totalPedaledValue" class="dashboard-value">--</strong>
-        <p class="status-message">Soma total dos treinos.</p>
-      </article>
-    </section>
+        <article class="dashboard-card">
+          <p class="dashboard-label">Media de tempo</p>
+          <strong id="averageDurationValue" class="dashboard-value">--</strong>
+          <p class="status-message">Tempo medio por treino.</p>
+        </article>
+
+        <article class="dashboard-card">
+          <p class="dashboard-label">Tempo pedalado</p>
+          <strong id="totalPedaledValue" class="dashboard-value">--</strong>
+          <p class="status-message">Soma total dos treinos.</p>
+        </article>
+      </section>
+    </div>
   </main>
+  <script>
+    function toggleDropdown(element) {
+      const parent = element.parentElement;
+      parent.classList.toggle("active");
+    }
+  </script>
 </body>
 </html>
