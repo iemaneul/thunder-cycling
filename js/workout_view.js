@@ -43,8 +43,17 @@
   }
 
   function getSpotifyUri(url) {
-    const match = String(url || "").match(/open\.spotify\.com\/(playlist|album|track|episode|show)\/([A-Za-z0-9]+)/);
-    return match ? `spotify:${match[1]}:${match[2]}` : "";
+    if (!url) return "";
+    
+    // Extrai tipo e ID, ignora locale (intl-pt) e query params
+    const typeMatch = String(url).match(/(playlist|album|track|episode|show)\/([A-Za-z0-9]+)/);
+    
+    if (!typeMatch) return "";
+    
+    const type = typeMatch[1]; // Ex: "track", "playlist"
+    const id = typeMatch[2];   // Ex: "3n3Ppam7vgaVa1iaRUc9Lp"
+    
+    return `spotify:${type}:${id}`;
   }
 
   function setupSpotifyEmbed() {

@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Biblioteca de Músicas | BC Cycling</title>
+  <link rel="stylesheet" href="css/style.css">
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="https://open.spotify.com/embed/iframe-api/v1" async></script>
+  <script src="js/supabase-config.js" defer></script>
+  <script src="js/supabase-api.js" defer></script>
+  <script src="js/chart.js" defer></script>
+  <script src="js/music_library.js" defer></script>
+</head>
+<body>
+  <div class="sidebar">
+    <img src="assets/logo/thunder-logo.png" alt="">
+    <div class="items">
+      <ul>
+        <li><a href="index.html"><i class="fi fi-rr-apps"></i>Dashboard</a></li>
+        <li class="menu-item">  
+          <div class="menu-link" onclick="toggleDropdown(this)">
+            <span><i class="fi fi-sr-bolt"></i>Treinos</span>
+            <i class="fi fi-rr-angle-small-right arrow"></i>
+          </div>
+
+          <ul class="submenu">
+            <li><a href="workout.html"><i class="fi fi-rc-wifi-1"></i>Listar treinos</a></li>
+            <li><a href="create_workout.html"><i class="fi fi-rc-wifi-1"></i>Criar treino</a></li>
+          </ul>
+        </li>
+        <li><a href="music_library.html"><i class="fi fi-sr-music"></i>Músicas</a></li>
+      </ul>
+    </div>
+  </div>
+
+  <main class="container">
+    <nav>
+    </nav>
+    <div class="content">
+      <div class="header-section">
+        <h1>Biblioteca de Músicas</h1>
+        <button id="openAddMusicModal" class="primary-link">Adicionar Música</button>
+      </div>
+
+      <p id="statusMessage" class="status-message">Carregando músicas...</p>
+
+      <!-- Music List -->
+      <div class="music-library-grid">
+        <div id="musicList" class="music-items-container">
+          <!-- Music items will be inserted here -->
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- Modal para adicionar/editar música -->
+  <div id="musicModal" class="modal hidden">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2 id="modalTitle">Adicionar Música</h2>
+        <button class="close-btn" onclick="closeMusicModal()">&times;</button>
+      </div>
+
+      <form id="musicForm" class="music-form">
+        <input type="hidden" id="musicId">
+
+        <div class="form-group">
+          <label for="musicTitle">Nome da Música *</label>
+          <input type="text" id="musicTitle" name="title" placeholder="Ex: Edge of Glory" required>
+        </div>
+
+        <div class="form-group">
+          <label for="musicArtist">Artista</label>
+          <input type="text" id="musicArtist" name="artist" placeholder="Ex: Lady Gaga">
+        </div>
+
+        <div class="form-group">
+          <label for="musicSpotifyUrl">Link Spotify (opcional)</label>
+          <input type="url" id="musicSpotifyUrl" name="spotify_url" placeholder="https://open.spotify.com/track/...">
+        </div>
+
+        <div class="form-group">
+          <label for="musicDuration">Duração (mm:ss) *</label>
+          <input type="text" id="musicDuration" class="clock-field" name="duration_mmss" placeholder="mm:ss" inputmode="numeric" required>
+        </div>
+
+        <hr>
+
+        <h3>Blocos de Intensidade</h3>
+        <div id="blocksContainer" class="blocks-container">
+          <!-- Blocks will be added here -->
+        </div>
+
+        <button type="button" id="addBlockBtn" class="button-secondary">+ Adicionar Bloco</button>
+
+        <hr>
+
+        <div class="form-actions">
+          <button type="submit" class="primary-link">Salvar Música</button>
+          <button type="button" onclick="closeMusicModal()" class="button-secondary">Cancelar</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Modal para visualizar/usar música -->
+  <div id="musicDetailModal" class="modal hidden">
+    <div class="modal-content music-detail-modal">
+      <div class="modal-header">
+        <h2 id="detailMusicTitle">Título da Música</h2>
+        <button class="close-btn" onclick="closeMusicDetailModal()">&times;</button>
+      </div>
+
+      <div class="music-detail-info">
+        <p><strong>Artista:</strong> <span id="detailMusicArtist">--</span></p>
+        <p><strong>Duração:</strong> <span id="detailMusicDuration">--</span></p>
+      </div>
+
+      <div class="chart-box">
+        <canvas id="musicDetailChart"></canvas>
+      </div>
+
+      <div id="spotifyEmbedWrap" class="spotify-embed-wrap hidden">
+        <div id="spotifyEmbed" class="spotify-embed"></div>
+      </div>
+
+      <div class="detail-actions">
+        <button id="playMusicBtn" class="button-primary"><i class="fi fi-rr-play"></i> Play</button>
+        <button id="editMusicBtn" class="primary-link">Editar</button>
+        <button id="deleteMusicBtn" class="button-danger">Deletar</button>
+        <button onclick="closeMusicDetailModal()" class="button-secondary">Fechar</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    function toggleDropdown(element) {
+      const parent = element.parentElement;
+      parent.classList.toggle("active");
+    }
+  </script>
+</body>
+</html>

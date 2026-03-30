@@ -14,6 +14,27 @@
   <script src="js/workout_view.js" defer></script>
 </head>
 <body>
+  <div class="sidebar">
+    <img src="assets/logo/thunder-logo.png" alt="">
+    <div class="items">
+      <ul>
+        <li><a href="index.html"><i class="fi fi-rr-apps"></i>Dashboard</a></li>
+        <li class="menu-item">  
+          <div class="menu-link" onclick="toggleDropdown(this)">
+            <span><i class="fi fi-sr-bolt"></i>Treinos</span>
+            <i class="fi fi-rr-angle-small-right arrow"></i>
+          </div>
+
+          <ul class="submenu">
+            <li><a href="workout.html"><i class="fi fi-rc-wifi-1"></i>Listar treinos</a></li>
+            <li><a href="create_workout.html"><i class="fi fi-rc-wifi-1"></i>Criar treino</a></li>
+          </ul>
+        </li>
+        <li><a href="music_library.html"><i class="fi fi-sr-music"></i>Músicas</a></li>
+      </ul>
+    </div>
+  </div>
+
   <main class="container">
     <h1 id="workoutTitle">Workout</h1>
     <p id="workoutMeta" class="status-message">Carregando treino...</p>
@@ -62,5 +83,12 @@
       <div id="spotifyEmbed" class="spotify-embed"></div>
     </div>
   </main>
+
+  <script>
+    function toggleDropdown(element) {
+      const parent = element.parentElement;
+      parent.classList.toggle("active");
+    }
+  </script>
 </body>
 </html>

@@ -315,6 +315,9 @@ button {
 
 .spotify-embed-wrap {
   margin: 14px 0 20px;
+  padding: 10px 0;
+  border: 1px solid #4a4243;
+  border-radius: 8px;
 }
 
 .spotify-embed {
@@ -325,6 +328,11 @@ button {
 }
 
 #powerChart {
+  width: 100%;
+  min-height: 280px;
+}
+
+#musicDetailChart {
   width: 100%;
   min-height: 280px;
 }
@@ -575,5 +583,394 @@ select {
 
   #powerChart {
     min-height: 180px;
+  }
+}
+
+/* ===== MUSIC LIBRARY STYLES ===== */
+
+.header-section {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2rem;
+  gap: 1rem;
+}
+
+.header-section h1 {
+  margin: 0;
+  flex: 1;
+}
+
+.header-section button {
+  white-space: nowrap;
+}
+
+.music-library-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+}
+
+.music-items-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+
+.music-card {
+  background: linear-gradient(135deg, #2b2526 0%, #1f1a1b 100%);
+  border: 1px solid #4a4243;
+  border-radius: 12px;
+  padding: 1rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.music-card:hover {
+  border-color: #8fd4ff;
+  box-shadow: 0 0 20px rgba(143, 212, 255, 0.2);
+  transform: translateY(-4px);
+}
+
+.music-card-header {
+  margin-bottom: 0.75rem;
+}
+
+.music-card-header h3 {
+  margin: 0 0 0.25rem 0;
+  font-size: 1.1rem;
+  color: #f6f1ea;
+  line-height: 1.3;
+}
+
+.music-artist {
+  margin: 0;
+  font-size: 0.9rem;
+  color: #a0958d;
+}
+
+.music-card-info {
+  display: flex;
+  gap: 1rem;
+  font-size: 0.85rem;
+  color: #b8ada2;
+  margin-bottom: 1rem;
+  flex-wrap: wrap;
+}
+
+.music-duration,
+.music-blocks-count {
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+}
+
+.music-duration i,
+.music-blocks-count i {
+  font-size: 1rem;
+}
+
+.music-card-actions {
+  display: flex;
+  gap: 0.5rem;
+  margin-top: auto;
+}
+
+.music-card-actions button {
+  flex: 1;
+  padding: 0.5rem;
+  font-size: 0.9rem;
+}
+
+.empty-state {
+  grid-column: 1 / -1;
+  text-align: center;
+  padding: 3rem 1rem;
+  color: #8a7d73;
+}
+
+.empty-state p {
+  margin: 0.5rem 0;
+}
+
+/* ===== MODAL STYLES ===== */
+
+.modal {
+  display: grid;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.7);
+  place-items: center;
+  z-index: 1000;
+}
+
+.modal.hidden {
+  display: none;
+}
+
+.modal-content {
+  background: #2b2526;
+  border: 1px solid #4a4243;
+  border-radius: 12px;
+  max-width: 500px;
+  width: 90%;
+  max-height: 90vh;
+  overflow-y: auto;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
+}
+
+.music-detail-modal {
+  max-width: 700px;
+}
+
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1.5rem;
+  border-bottom: 1px solid #4a4243;
+}
+
+.modal-header h2 {
+  margin: 0;
+  font-size: 1.3rem;
+}
+
+.close-btn {
+  background: none;
+  border: none;
+  color: #f6f1ea;
+  font-size: 1.8rem;
+  cursor: pointer;
+  padding: 0;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: color 0.2s;
+}
+
+.close-btn:hover {
+  color: #8fd4ff;
+}
+
+.music-form {
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.form-group label {
+  color: #d4cac5;
+  font-weight: 500;
+  font-size: 0.95rem;
+}
+
+.form-group input,
+.form-group select {
+  padding: 0.75rem;
+  background: #1f1a1b;
+  border: 1px solid #4a4243;
+  border-radius: 6px;
+  color: #f6f1ea;
+  font-size: 1rem;
+  font-family: inherit;
+}
+
+.form-group input:focus,
+.form-group select:focus {
+  outline: none;
+  border-color: #8fd4ff;
+  box-shadow: 0 0 8px rgba(143, 212, 255, 0.2);
+}
+
+.music-form hr {
+  border: none;
+  border-top: 1px solid #4a4243;
+  margin: 0.5rem 0;
+}
+
+.music-form h3 {
+  margin: 0;
+  font-size: 1rem;
+  color: #d4cac5;
+}
+
+.blocks-container {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  max-height: 300px;
+  overflow-y: auto;
+  padding: 0.5rem 0;
+}
+
+.block-row {
+  padding: 1rem;
+  background: #1f1a1b;
+  border: 1px solid #4a4243;
+  border-radius: 6px;
+}
+
+.block-inputs {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
+  gap: 0.5rem;
+  align-items: center;
+}
+
+.block-inputs input,
+.block-inputs select {
+  padding: 0.5rem;
+  background: #2b2526;
+  border: 1px solid #4a4243;
+  border-radius: 4px;
+  color: #f6f1ea;
+  font-size: 0.9rem;
+}
+
+.block-inputs input:focus,
+.block-inputs select:focus {
+  outline: none;
+  border-color: #8fd4ff;
+}
+
+.block-remove-btn {
+  background: #8d2f2f;
+  border: none;
+  color: #f6f1ea;
+  border-radius: 4px;
+  padding: 0.5rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.2s;
+}
+
+.block-remove-btn:hover {
+  background: #a83535;
+}
+
+.block-start,
+.block-end,
+.block-intensity,
+.block-position,
+.block-load {
+  padding: 0.5rem;
+}
+
+.form-actions {
+  display: flex;
+  gap: 0.75rem;
+  margin-top: 1rem;
+}
+
+.form-actions button {
+  flex: 1;
+  padding: 0.75rem;
+}
+
+.music-detail-info {
+  padding: 1.5rem;
+  background: #1f1a1b;
+  border-bottom: 1px solid #4a4243;
+}
+
+.music-detail-info p {
+  margin: 0.5rem 0;
+  color: #d4cac5;
+}
+
+.detail-actions {
+  padding: 1.5rem;
+  display: flex;
+  gap: 0.75rem;
+  border-top: 1px solid #4a4243;
+}
+
+.detail-actions button {
+  flex: 1;
+  padding: 0.75rem;
+  font-size: 0.95rem;
+}
+
+.button-primary,
+.button-secondary,
+.button-danger {
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 500;
+  font-size: 0.95rem;
+  transition: all 0.2s;
+}
+
+.button-primary {
+  background: #3B82F6;
+  color: #ffffff;
+  padding: 0.75rem 1rem;
+}
+
+.button-primary:hover {
+  background: #2563eb;
+}
+
+.button-secondary {
+  background: #4a4243;
+  color: #f6f1ea;
+  padding: 0.75rem 1rem;
+}
+
+.button-secondary:hover {
+  background: #5a5254;
+}
+
+.button-danger {
+  background: #8d2f2f;
+  color: #f6f1ea;
+  padding: 0.75rem 1rem;
+}
+
+.button-danger:hover {
+  background: #a83535;
+}
+
+#addBlockBtn {
+  align-self: flex-start;
+  padding: 0.5rem 1rem;
+}
+
+@media (max-width: 640px) {
+  .header-section {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .music-items-container {
+    grid-template-columns: 1fr;
+  }
+
+  .modal-content {
+    width: 95%;
+    max-height: 95vh;
+  }
+
+  .block-inputs {
+    grid-template-columns: 1fr;
   }
 }

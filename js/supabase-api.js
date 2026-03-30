@@ -323,6 +323,180 @@
     }
   }
 
+  // ===== MUSIC LIBRARY FUNCTIONS =====
+
+  async function getMusicLibrary() {
+    const client = window.BCSupabase.assertSupabase();
+
+    const { data: musics, error: musicError } = await client
+      .from("music_library")
+      .select("id, title, artist, duration_seconds, spotify_url, is_active")
+      .eq("is_active", true)
+      .order("id", { ascending: true });
+
+    if (musicError) {
+      throw musicError;
+    }
+
+    if (!musics || !musics.length) {
+      return [];
+    }
+
+    // Fetch blocks for each music
+    const musicsWithBlocks = await Promise.all(
+      musics.map(async (music) => {
+        const { data: blocks, error: blocksError } = await client
+          .from("music_library_blocks")
+          .select("id, start_seconds, end_seconds, intensity, position, load_level")
+          .eq("music_id", music.id)
+          .order("start_seconds", { ascending: true });
+
+        if (blocksError) {
+          console.error("Erro ao buscar blocos:", blocksError);
+          return { ...music, blocks: [] };
+        }
+
+        return { ...music, blocks: blocks ?? [] };
+      })
+    );
+
+    return musicsWithBlocks;
+  }
+
+  async function addMusicToLibrary(payload) {
+    const client = window.BCSupabase.assertSupabase();
+
+    const musicPayload = {
+      title: payload.title,
+      artist: payload.artist || null,
+      spotify_url: payload.spotify_url || null,
+      duration_seconds: payload.duration_seconds,
+      is_active: true
+    };
+
+    let music;
+
+    if (payload.id) {
+      // Update existing music
+      const { data, error } = await client
+        .from("music_library")
+        .update(musicPayload)
+        .eq("id", payload.id)
+        .select("id, title, artist, duration_seconds, spotify_url, is_active");
+
+      if (error) {
+        throw error;
+      }
+
+      music = Array.isArray(data) ? data[0] : data;
+
+      if (!music) {
+        const { data: fallbackData, error: fallbackError } = await client
+          .from("music_library")
+          .select("id, title, artist, duration_seconds, spotify_url, is_active")
+          .eq("id", payload.id)
+          .maybeSingle();
+
+        if (fallbackError) {
+          throw fallbackError;
+        }
+
+        music = fallbackData;
+      }
+
+      if (!music) {
+        throw new Error("Não foi possível localizar a música após atualizar.");
+      }
+
+      // Delete old blocks
+      const { error: deleteError } = await client
+        .from("music_library_blocks")
+        .delete()
+        .eq("music_id", music.id);
+
+      if (deleteError) {
+        throw deleteError;
+      }
+    } else {
+      // Create new music
+      const { data, error } = await client
+        .from("music_library")
+        .insert(musicPayload)
+        .select("id, title, artist, duration_seconds, spotify_url, is_active");
+
+      if (error) {
+        throw error;
+      }
+
+      music = Array.isArray(data) ? data[0] : data;
+
+      if (!music) {
+        const { data: fallbackList, error: fallbackError } = await client
+          .from("music_library")
+          .select("id, title, artist, duration_seconds, spotify_url, is_active")
+          .eq("title", payload.title)
+          .order("id", { ascending: false })
+          .limit(1);
+
+        if (fallbackError) {
+          throw fallbackError;
+        }
+
+        music = Array.isArray(fallbackList) ? fallbackList[0] : fallbackList;
+      }
+
+      if (!music) {
+        throw new Error("Não foi possível criar a música.");
+      }
+    }
+
+    // Insert blocks
+    if (payload.blocks && payload.blocks.length) {
+      const blockRows = payload.blocks.map((block) => ({
+        music_id: music.id,
+        start_seconds: block.start_seconds,
+        end_seconds: block.end_seconds,
+        intensity: block.intensity,
+        position: block.position,
+        load_level: block.load_level
+      }));
+
+      const { error: blockError } = await client
+        .from("music_library_blocks")
+        .insert(blockRows);
+
+      if (blockError) {
+        throw blockError;
+      }
+    }
+
+    return music;
+  }
+
+  async function deleteMusicFromLibrary(musicId) {
+    const client = window.BCSupabase.assertSupabase();
+
+    // Delete blocks first
+    const { error: blockError } = await client
+      .from("music_library_blocks")
+      .delete()
+      .eq("music_id", musicId);
+
+    if (blockError) {
+      throw blockError;
+    }
+
+    // Then delete the music
+    const { error: musicError } = await client
+      .from("music_library")
+      .delete()
+      .eq("id", musicId);
+
+    if (musicError) {
+      throw musicError;
+    }
+  }
+
   window.BCApi = {
     createWorkout,
     getAllWorkouts,
@@ -336,6 +510,9 @@
     getAllWorkoutBlocks,
     getMusicBlocksByMusicId,
     saveWorkoutMusicWithBlocks,
-    deactivateWorkoutMusic
+    deactivateWorkoutMusic,
+    getMusicLibrary,
+    addMusicToLibrary,
+    deleteMusicFromLibrary
   };
 })();
